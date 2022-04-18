@@ -9,6 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -363,4 +364,3 @@ MigrationBackup/
 FodyWeavers.xsd#
 
 #myConfig files
-*.json
