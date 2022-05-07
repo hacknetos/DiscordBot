@@ -28,7 +28,7 @@ namespace DoscordBot
                 .BuildServiceProvider();
             string token = Console.ReadLine();
             _client.Log += Client_log;
-            await RegisterCommandAsync();
+           await RegisterCommandAsync();
            await _client.LoginAsync(TokenType.Bot, token);
            await _client.StartAsync();
 
@@ -44,17 +44,28 @@ namespace DoscordBot
         }
         public async Task HandleCommandAsync(SocketMessage msg)
         {
-            var msg2 = msg as SocketUserMessage;
-            var context = new SocketCommandContext(_client, msg2);
-
-            if (msg.Author.IsBot) return;
-            int argPos = 0;
-            if (msg2.HasStringPrefix("sp.",ref argPos))
+            try
             {
-                var result = await _commands.ExecuteAsync(context, argPos, _services);
-                if (!result.IsSuccess) Console.WriteLine(result.ErrorReason);
-                if (result.Error.Equals(CommandError.UnmetPrecondition)) await msg2.Channel.SendMessageAsync(result.ErrorReason);
+                if(msg == null)
+                {
+                    return;
+                }
+                var msg2 = msg as SocketUserMessage;
+                var context = new SocketCommandContext(_client, msg2);
+
+                if (msg.Author.IsBot) return;
+                int argPos = 0;
+                if (msg2.HasStringPrefix("sp.", ref argPos))
+                {
+                    var result = await _commands.ExecuteAsync(context, argPos, _services);
+                    if (!result.IsSuccess) Console.WriteLine(result.ErrorReason);
+                    if (result.Error.Equals(CommandError.UnmetPrecondition)) await msg2.Channel.SendMessageAsync(result.ErrorReason);
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
+            
         }
         public Task Client_log(LogMessage message) {
             Console.WriteLine(message);
