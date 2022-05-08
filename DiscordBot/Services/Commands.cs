@@ -8,10 +8,17 @@ namespace DiscordBot.Services
 {
     public class MoederatorCommands : ModuleBase<SocketCommandContext>
     {
-        [Command("ping")]
-        public async Task ping()
+        [Command("helpmod")]
+        public async Task helpmod()
         {
-            await ReplyAsync("pong!");
+          var embed = new EmbedBuilder
+          {
+               Title = "Help",
+               Color = Color.Green
+               Description = "Help Comming soon"
+                
+          };
+           await Context.Channel.SendMessageAsync(embed: embed.Build())
         }
 
 
@@ -36,6 +43,7 @@ namespace DiscordBot.Services
                 Color = Color.Orange,
                 
                 Description = "ich habe @" + user.Username + " / " + user.DisplayName + " Gekickt \n Grund : \n ```" + Grund +"```",
+                
                             };
             await Context.Channel.SendMessageAsync(embed: embed.Build());
         }
